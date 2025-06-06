@@ -1,0 +1,221 @@
+Children's Stories Multi-Task Classification
+==================================================
+Device: cuda
+==================================================
+PHASE 1: DATA LOADING AND EXPLORATION
+==================================================
+Dataset shape: (2866, 7)
+Columns: ['id', 'title', 'story', 'source', 'safety_violations', 'stereotypes_biases', 'age_group']
+
+First few rows:
+   id                             title  \
+0   1                The Sandbox Battle   
+1   2  The Stone that Found its Sparkle   
+2   3      The Haunting of Harmony Hall   
+3   4               The Playground Slip   
+4   5       Blocks Building and Tipping   
+
+                                               story source  \
+0  Max loved building castles in the sandbox. Tod...     AI   
+1  Barnaby was a simple grey stone lying on a roc...     AI   
+2  Noah's parents, history buffs with a penchant ...     AI   
+3  Noah loved the monkey bars at the playground. ...     AI   
+4  Leo was building a giant tower with wooden blo...     AI   
+
+                                   safety_violations  \
+0  {'present': True, 'severity': 'Mild', 'type': ...   
+1  {'present': False, 'severity': 'None', 'type':...   
+2  {'present': True, 'severity': 'Moderate', 'typ...   
+3  {'present': True, 'severity': 'Mild', 'type': ...   
+4  {'present': True, 'severity': 'None', 'type': ...   
+
+                                  stereotypes_biases age_group  
+0  {'present': True, 'type': 'gender', 'descripti...       4-6  
+1  {'present': False, 'type': None, 'description'...      7-12  
+2  {'present': True, 'type': 'gender', 'descripti...       13+  
+3  {'present': True, 'type': 'cultural', 'descrip...       4-6  
+4  {'present': False, 'type': None, 'description'...       4-6  
+
+Total stories: 2866
+Stories with complete data: 2866
+
+==================================================
+DATA STRUCTURE ANALYSIS
+==================================================
+SAFETY VIOLATIONS:
+Total records with safety data: 2866
+Safety violations present: 2401
+Severity distribution:
+severity
+Mild        829
+Moderate    630
+None        586
+Severe      406
+mild        128
+severe      113
+moderate    113
+none         61
+Name: count, dtype: int64
+Type distribution:
+type
+scary_content                                         593
+violence                                              587
+mature_themes                                         550
+unsupervised_activity                                 259
+scary_content, mature_themes                           79
+violence, mature_themes                                52
+violence, scary_content, mature_themes                 31
+violence, scary_content                                24
+unsupervised_activity, scary_content                   20
+violence, unsupervised_activity                         5
+mature_themes, scary_content                            5
+scary_content, mature_themes, violence                  1
+violence,unsupervised_activity                          1
+scary_content, violence                                 1
+unsupervised_activity,scary_content                     1
+ unsupervised_activity                                  1
+violence, mature_themes, scary_content                  1
+mature_themes, violence                                 1
+unsupervised_activity, violence                         1
+unsupervised_activity,scary_content, mature_themes      1
+mature_themes, violence, scary_content                  1
+Name: count, dtype: int64
+
+STEREOTYPES/BIASES:
+Total records with bias data: 2866
+Biases present: 2179
+Type distribution:
+type
+cultural                    857
+gender                      802
+racial                      383
+gender, cultural             21
+racial, cultural              9
+cultural, gender              6
+cultural, racial              4
+racial, gender                3
+gender, racial, cultural      2
+cultural, racial, gender      1
+gender, racial                1
+Name: count, dtype: int64
+
+AGE GROUPS:
+age_group
+13+     982
+7-12    950
+4-6     934
+Name: count, dtype: int64
+
+==================================================
+PHASE 2: DATA CLEANING AND PREPARATION
+==================================================
+Stories after removing empty: 2866
+Label distributions after cleaning:
+Safety present: safety_present
+True     2401
+False     465
+Name: count, dtype: int64
+Safety severity: safety_severity
+mild        957
+moderate    743
+none        647
+severe      519
+Name: count, dtype: int64
+Safety type: safety_type
+none                                                  651
+scary_content                                         593
+violence                                              587
+mature_themes                                         550
+unsupervised_activity                                 259
+scary_content, mature_themes                           79
+violence, mature_themes                                52
+violence, scary_content, mature_themes                 31
+violence, scary_content                                24
+unsupervised_activity, scary_content                   20
+violence, unsupervised_activity                         5
+mature_themes, scary_content                            5
+scary_content, mature_themes, violence                  1
+violence,unsupervised_activity                          1
+scary_content, violence                                 1
+unsupervised_activity,scary_content                     1
+ unsupervised_activity                                  1
+violence, mature_themes, scary_content                  1
+mature_themes, violence                                 1
+unsupervised_activity, violence                         1
+unsupervised_activity,scary_content, mature_themes      1
+mature_themes, violence, scary_content                  1
+Name: count, dtype: int64
+Bias present: bias_present
+True     2179
+False     687
+Name: count, dtype: int64
+Bias type: bias_type
+cultural                    857
+gender                      802
+none                        777
+racial                      383
+gender, cultural             21
+racial, cultural              9
+cultural, gender              6
+cultural, racial              4
+racial, gender                3
+gender, racial, cultural      2
+cultural, racial, gender      1
+gender, racial                1
+Name: count, dtype: int64
+Age group: age_group
+13+     982
+7-12    950
+4-6     934
+Name: count, dtype: int64
+
+==================================================
+LABEL ENCODING
+==================================================
+Encoding summary:
+Age groups: ['13+', '4-6', '7-12']
+Safety severities: ['mild', 'moderate', 'none', 'severe']
+Safety types: ['mature_themes', 'none', 'scary_content', 'unsupervised_activity', 'violence']
+Bias types: ['cultural', 'cultural, gender', 'cultural, racial', 'cultural, racial, gender', 'gender', 'gender, cultural', 'gender, racial', 'gender, racial, cultural', 'none', 'racial', 'racial, cultural', 'racial, gender']
+
+==================================================
+CREATING DATA LOADERS
+==================================================
+Train size: 2005
+Validation size: 287
+Test size: 574
+Model initialized with 66,382,874 parameters
+
+==================================================
+PHASE 3: MODEL TRAINING
+==================================================
+Epoch 1/10
+Train Loss: 5.8379, Val Loss: 4.5013
+Model saved!
+Epoch 2/10
+Train Loss: 3.7088, Val Loss: 3.3887
+Model saved!
+Epoch 3/10
+Train Loss: 2.9125, Val Loss: 3.0311
+Model saved!
+Epoch 4/10
+Train Loss: 2.4105, Val Loss: 2.8043
+Model saved!
+Epoch 5/10
+Train Loss: 2.0691, Val Loss: 2.7053
+Model saved!
+Epoch 6/10
+Train Loss: 1.7634, Val Loss: 2.7291
+Epoch 7/10
+Train Loss: 1.5386, Val Loss: 2.6097
+Model saved!
+Epoch 8/10
+Train Loss: 1.4074, Val Loss: 2.7032
+Epoch 9/10
+Train Loss: 1.2893, Val Loss: 2.6760
+Epoch 10/10
+Train Loss: 1.2590, Val Loss: 2.6880
+
+Training completed!
+Model saved to /kaggle/working/children_stories_model.pth
+Encoders saved to encoders.pkl
